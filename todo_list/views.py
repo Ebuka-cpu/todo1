@@ -21,9 +21,11 @@ def home(request):
 
 def delete(request, list_id):
     item = List.objects.get(pk=list_id)
-    item.delete()
-    messages.success(request, 'Item Has Been Deleted')
-    return redirect('home')
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, 'Item has been deleted')
+        return redirect('home')
+    return render(request, 'todo_list/delete.html', {'item':item})
 
 
 def cross_off(request, list_id):
